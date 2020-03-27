@@ -7,7 +7,7 @@ socket.on('message', function(data) {
 socket.on('player info', function({name, team}) {
   console.log('I am on team ' + team);
   $('#player-login').hide();
-  $('#player-info').show();
+  $('#play-area').show();
   $('#player-name-display').text(name);
   $('#player-name-display').addClass('team-' + team);
 })
@@ -32,7 +32,7 @@ function registerPlayer() {
   socket.emit('player registration', playerInfo, function(registeredPlayer) {
     console.dir(registeredPlayer);
     $('#player-login').hide();
-    $('#player-info').show();
+    $('#play-area').show();
     $('#player-name-display').text(registeredPlayer.name);
     $('#player-name-display').addClass('team-' + registeredPlayer.team);
     playerInfo = registeredPlayer;
@@ -47,6 +47,18 @@ socket.on('player list', function(playerList) {
     $('#player-list').append('<li class="team-' + player.team + '">' + player.name + smTag + '</li>');
   }
 });
+
+socket.on('start game', function() {
+  $('#game-board').css('display', 'flex');
+  console.log('GAME STARTING');
+});
+
+socket.on('board state', function(tiles) {
+  console.dir(tiles);
+  for (i = 1; i <= 25; i++) {
+    $('#tile-' + i).text(tiles[i].word);
+  }
+})
 
 $('#enter-name-button').on('click', function(event) {
   event.preventDefault();

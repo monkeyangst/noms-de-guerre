@@ -5,6 +5,7 @@ var path = require('path');
 var app = express();
 var server = http.Server(app);
 var io = require('socket.io')(server);
+var game = require('./models/game');
 app.use('/static', express.static(__dirname + '/static'));// Routing
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -98,8 +99,19 @@ io.on('connection', function(socket) {
     socket.broadcast.emit('player disconnect');
   })
 
+  // Start the game!
+  socket.on('start game', function() {
+    // TODO: reject game start if there are no spymasters
+
+    console.log('GAME STARTING!');
+    socket.broadcast.emit('start game');
+    game.start();
+    socket.broadcast.emit('board state', game.tilesPlayer);
+  })
+
+
 });
 
-setInterval(function() {
-  io.sockets.emit('state', players);
-}, 1000 / 60);
+// setInterval(function() {
+//   io.sockets.emit('state', players);
+// }, 1000 / 60);

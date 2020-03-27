@@ -9,7 +9,7 @@
         border: 1px solid #cccccc;
         border-radius: 10px;
       }
-      div#player-info {
+      div#play-area {
         padding: 50px;
 
         display: none;
@@ -24,6 +24,35 @@
         display:none;
       }
 
+      #game-board {
+        background-color: #e0e0e0;
+        width: 740px;
+        height: 740px;
+        margin: 0 auto;
+        padding: 10px;
+        border: 1px solid #cccccc;
+        border-radius: 6px;
+        display: none;
+        flex-wrap: wrap;
+        font-size: 16px;
+        
+      }
+
+      .tile {
+        display: flexbox;
+        background: White;
+        height: 120px;
+        width: 120px;
+        margin: 10px;
+        color: White;
+        text-transform: uppercase;
+        text-align: center;
+        line-height: 120px;
+        border-radius: 10px;
+        box-shadow: 2px 5px 5px rgba(0,0,0,.25);
+        letter-spacing: 2px;
+        text-shadow: 1px 2px 2px rgba(0,0,0,.5)
+      }
       h2.team-0 { background: #998833; }
       h2.team-1 { background: #990000; }
       h2.team-2 { background: #003399;}
@@ -48,14 +77,47 @@
           <button class="btn btn-primary mt-3" id="enter-name-button" >Sign In</button>
         </div>
       </form>
-      <div id="player-info">
+      <div id="play-area">
         <h1>Noms de Guerre</h1>
         <h2 id="player-name-display">TEMPORARY</h2>
         <h3 class="spymaster">SPYMASTER</h3>
-        <button id="test">Test</button>
-        <ul id="player-list">
 
-        </ul>
+        <div class="container row">
+          <div class="col-2">
+            <ul id="player-list">
+            </ul>
+          </div>
+          <div class="col-10">
+            <div id="game-board">
+              <div class="tile" id="tile-1"></div>
+              <div class="tile" id="tile-2"></div>
+              <div class="tile" id="tile-3"></div>
+              <div class="tile" id="tile-4"></div>
+              <div class="tile" id="tile-5"></div>
+              <div class="tile" id="tile-6"></div>
+              <div class="tile" id="tile-7"></div>
+              <div class="tile" id="tile-8"></div>
+              <div class="tile" id="tile-9"></div>
+              <div class="tile" id="tile-10"></div>
+              <div class="tile" id="tile-11"></div>
+              <div class="tile" id="tile-12"></div>
+              <div class="tile" id="tile-13"></div>
+              <div class="tile" id="tile-14"></div>
+              <div class="tile" id="tile-15"></div>
+              <div class="tile" id="tile-16"></div>
+              <div class="tile" id="tile-17"></div>
+              <div class="tile" id="tile-18"></div>
+              <div class="tile" id="tile-19"></div>
+              <div class="tile" id="tile-20"></div>
+              <div class="tile" id="tile-21"></div>
+              <div class="tile" id="tile-22"></div>
+              <div class="tile" id="tile-23"></div>
+              <div class="tile" id="tile-24"></div>
+              <div class="tile" id="tile-25"></div>
+            </div>
+          </div>
+        </div>
+        <button id="test">Test</button>
       </div>
     </div>
   </body>

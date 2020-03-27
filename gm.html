@@ -18,7 +18,10 @@
   
     <p>There are now <span id="player-count">0</span> players.</p>
 
-    <p><button id="refresh-players-button" class="btn btn-warning">Refresh Players</button></p>
+    <p>
+      <button id="refresh-players-button" class="btn btn-warning">Refresh Players</button>
+      <button id="start-game-button" class="btn btn-danger">Start Game</button>
+    </p>
 
     <table id="player-list" class="table">
       <thead>
@@ -76,6 +79,11 @@
       refreshList();
     });
 
+    $('#start-game-button').on('click', function(event) {
+      event.preventDefault();
+      socket.emit('start game');
+    });
+
     function refreshList() {
       socket.emit('get player list', function (data) {
         refreshTable(data);
@@ -105,7 +113,7 @@
 
     function makeSpymaster(id) {
       console.log('Making spymaster: ' + id);
-      
+
       socket.emit('make spymaster', id, function(newPlayerList) {
         refreshTable(newPlayerList);
       });
