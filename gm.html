@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Noms de Guerre - GM Screen</title>
+  <link rel="stylesheet" href="gm.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Noms de Guerre</h1>
+    <h3>Gamemaster screen</h3>
+  
+    <p>There are now <span id="player-count">0</span> players.</p>
+
+    <p><button id="refresh-players-button" class="btn btn-warning">Refresh Players</button></p>
+
+    <table id="player-list" class="table">
+      <thead>
+        <tr>
+          <th>Player</th>
+          <th>Team</th>
+          <th>Socket</th>
+          <th>Manual Assignment</th>
+        </tr>
+      </thead>
+      <tbody>
+  
+      </tbody>
+    </table>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    var socket = io();
+    
+    //Populate the initial players list
+    refreshList();
+
+    socket.on('message', function(data) {
+      console.log(data);
+    });
+    socket.on('player info', function(data) {
+      console.log('New Player!');
+    });
+
+    socket.on('login', (data) => {
+      connected = true;
+      // Display the welcome message
+      var message = "Welcome to Socket.IO Chat – ";
+      log(message, {
+        prepend: true
+      });
+      console.log(data.numPlayers);
+    });
+
+
+    socket.on('player disconnect', function(data) {
+      console.log('Some asshole has left');
+    });
+
+    // Ways the GM can get updated players list
+
+    // Player registers
+    socket.on('player list', function(data) {
+      refreshTable(data);
+    });
+
+    $('#refresh-players-button').on('click', function(event) {
+      event.preventDefault();
+      refreshList();
+    });
+
+    function refreshList() {
+      socket.emit('get player list', function (data) {
+        refreshTable(data);
+      });
+
+    }
+
+    function refreshTable(data) {
+      var numPlayers = data.length;
+        $('#player-count').text(numPlayers);
+        // Clear out existing player table
+        $('#player-list>tbody').empty();
+        for ( var player of data) {
+          // Create a table row for this player
+          addPlayerRow(player);
+         }
+      }
+
+    function addPlayerRow(player) {
+      var buttonSet = '<button class="btn btn-danger team-1 text-light make-red mr-2" onclick="makeRed(\'' + player.id + '\')">Red</button><button class="btn btn-primary team-2 text-light make-blue mr-2" onclick="makeBlue(\'' + player.id + '\')">Blue</button><button class="btn btn-secondary make-spymaster" onclick="makeSpymaster(\'' + player.id + '\')">Spymaster</button>';
+
+      var smBadge = (player.isSpymaster) ? '&nbsp;🌟' : '';
+
+      var output = '<tr class="team-' + player.team + '" data-player="' + player.id + '"><td>' + player.name + smBadge + '</td><td>' + player.team + '</td><td>' + player.id + '</td><td>' + buttonSet + '</tr>';
+      $('#player-list>tbody').append(output);
+    }
+
+    function makeSpymaster(id) {
+      console.log('Making spymaster: ' + id);
+      
+      socket.emit('make spymaster', id, function(newPlayerList) {
+        refreshTable(newPlayerList);
+      });
+    }
+
+    function makeRed(id) {
+      socket.emit('change team', id, 1, function(newPlayerList) {
+        refreshTable(newPlayerList);
+      });
+    }
+
+    function makeBlue(id) {
+      socket.emit('change team', id, 2, function(newPlayerList) {
+        refreshTable(newPlayerList);
+      });
+    }
+
+  </script>
+</body>
+</html>

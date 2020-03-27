@@ -1,0 +1,63 @@
+<html>
+  <head>
+    <title>Noms de Guerre</title>
+    <style>
+      div#player-login {
+        padding: 50px;
+        margin: 30px auto;
+        width: 80%;
+        border: 1px solid #cccccc;
+        border-radius: 10px;
+      }
+      div#player-info {
+        padding: 50px;
+
+        display: none;
+      }
+      h2#player-name-display {
+        padding: 20px;
+        border-radius: 10px;
+        color: White;
+      }
+
+      h3.spymaster {
+        display:none;
+      }
+
+      h2.team-0 { background: #998833; }
+      h2.team-1 { background: #990000; }
+      h2.team-2 { background: #003399;}
+      h2.team-3 { background: #333333;}
+      li.team-1 { color: Red;}
+      li.team-2 { color: Blue;}
+    </style>
+    <script
+    src="https://code.jquery.com/jquery-3.4.1.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+    crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="/socket.io/socket.io.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <form>
+        <div id="player-login" class="form-group">
+          <label for="player-name">Player Name</label>
+          <input class="form-control" type="text" id="player-name" name="playerName" autofocus>
+          <button class="btn btn-primary mt-3" id="enter-name-button" >Sign In</button>
+        </div>
+      </form>
+      <div id="player-info">
+        <h1>Noms de Guerre</h1>
+        <h2 id="player-name-display">TEMPORARY</h2>
+        <h3 class="spymaster">SPYMASTER</h3>
+        <button id="test">Test</button>
+        <ul id="player-list">
+
+        </ul>
+      </div>
+    </div>
+  </body>
+  <script src="/static/game.js"></script>
+</html>
