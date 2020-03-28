@@ -1,0 +1,66 @@
+  div#player-login {
+    padding: 50px;
+    margin: 30px auto;
+    width: 80%;
+    border: 1px solid #cccccc;
+    border-radius: 10px;
+  }
+  div#play-area {
+    padding: 50px;
+
+    display: none;
+  }
+  h2#player-name-display {
+    padding: 20px;
+    border-radius: 10px;
+    color: White;
+  }
+
+  h3.spymaster {
+    display:none;
+  }
+
+  #game-board {
+    background-color: #e0e0e0;
+    width: 722px;
+    height: 722px;
+    margin: 0 auto;
+    padding: 10px;
+    border: 1px solid #cccccc;
+    border-radius: 6px;
+    display: none;
+    flex-wrap: wrap;
+    font-size: 16px;
+        
+  }
+
+  .tile {
+    display: flexbox;
+    background: White;
+    height: 120px;
+    width: 120px;
+    margin: 10px;
+    color: Black;
+    text-transform: uppercase;
+    text-align: center;
+    line-height: 120px;
+    border-radius: 10px;
+    box-shadow: 2px 5px 5px rgba(0,0,0,.25);
+    letter-spacing: 2px;
+    position: relative;
+  }
+  .my-turn .tile {
+    cursor: pointer;
+  }
+
+
+
+  .tile.revealed {
+    color: White;
+  }
+  
+
+  .team-0 { background: #998833; color: White;}
+  .team-1 { background: #990000; color: White; }
+  .team-2 { background: #003399; color: White;}
+  .team-3 { background: #333333; color: White;}

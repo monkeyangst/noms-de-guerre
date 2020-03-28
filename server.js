@@ -106,7 +106,31 @@ io.on('connection', function(socket) {
     console.log('GAME STARTING!');
     socket.broadcast.emit('start game');
     game.start();
-    socket.broadcast.emit('board state', game.tilesPlayer);
+    for (player of players) {
+      if (player.isSpymaster) socket.to(player.id).emit('board state', game.tilesKey);
+      else {
+        socket.to(player.id).emit('board state', game.tilesPlayer);
+        if (player.team === game.whoseTurn) socket.to(player.id).emit('your turn');
+        else socket.to(player.id).emit('not your turn');
+
+      }
+    }
+  });
+
+  socket.on('choice made', function(who, whichTile) {
+    tileNumber = whichTile.substring(5);
+    if (game.tilesPlayer[tileNumber].revealed) return;
+    console.log(who + ' has chosen ' + tileNumber);
+    tileColor = game.tilesKey[tileNumber].color;
+    console.log('That tile is actually team ' + tileColor);
+    game.tilesPlayer[tileNumber].color = tileColor;
+    game.tilesPlayer[tileNumber].revealed = true;
+    io.emit('board state', game.tilesPlayer);
+    // Is the game over?
+    if (tileColor === player.team) console.log('Yay!') 
+    //Is the turn over?
+    // Is the game over?
+
   })
 
 

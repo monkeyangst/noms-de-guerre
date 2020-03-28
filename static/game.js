@@ -1,5 +1,7 @@
 var socket = io();
 var playerInfo = {};
+var myTurn = false;
+
 socket.on('message', function(data) {
   console.log('MESSAGE: ' +data);
 });
@@ -54,17 +56,40 @@ socket.on('start game', function() {
 });
 
 socket.on('board state', function(tiles) {
+  console.log('Board state updated');
   console.dir(tiles);
   for (i = 1; i <= 25; i++) {
     $('#tile-' + i).text(tiles[i].word);
+    // Remove all existing teams from tile
+    $('#tile-' + i).removeClass (function (index, className) {
+      return (className.match (/team-[\d]/g) || []).join(' ');
+  });
+    if (!isNaN(tiles[i].color)) $('#tile-' + i).addClass('team-' + tiles[i].color);
   }
-})
-
-$('#enter-name-button').on('click', function(event) {
-  event.preventDefault();
-  registerPlayer();
 });
 
-$('#test').on('click', function(event) {
-  console.dir(playerInfo);
+socket.on('your turn', function() {
+  alert('Your turn!');
+  $('body').addClass('my-turn');
+  myTurn = true;
 })
+
+// jQuery Stuff
+$( document ).ready(function() {
+  $('#enter-name-button').on('click', function(event) {
+    event.preventDefault();
+    registerPlayer();
+  });
+
+  $('#test').on('click', function(event) {
+    console.dir(playerInfo);
+  });
+
+  $('body .tile').on('click', function(event) {
+    if (!myTurn) return;
+    $('.tile').removeClass('selected');
+    $(this).addClass('selected');
+    whichTile = $(this).attr('id');
+    socket.emit('choice made', playerInfo.name, whichTile);
+  });
+});

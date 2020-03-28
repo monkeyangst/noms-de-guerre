@@ -1,3 +1,4 @@
+
 const cardColors = [3,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2]
 
 
@@ -191,45 +192,27 @@ const wordList = [
   'yard'
 ]
 
+function GameBoard() {
 
-var game = {
-  started: false,
-  whoseTurn: 0,
-  revealedTiles: [],
+  // Create empty array of tiles
+  this.tiles = [];
+  // Populate words array with 25 random words
+  this.words = shuffle(wordList).slice(0,25);
 
-  start: function() {
-    console.log('STARTING GAME');
-    this.started = true;
-    // Flip coin to determine who goes first
-    let first = Math.floor(Math.random() * 2 ) + 1;
-    this.whoseTurn = first;
-    console.log('Team ' + this.whoseTurn + ' goes first!');
+  // Choose which team (Red = 1, Blue = 2) goes first
+  this.firstTeam = Math.floor(Math.random() * 2 ) + 1;
+  this.colors = shuffle(cardColors);
 
-    // Populate tiles
-    this.tilesKey = [];
-    this.tilesPlayer = [];
-    this.words = shuffle(wordList).slice(0,25);
+  // Add one more tile, of the color of the starting team.
+  this.colors.push(this.firstTeam);
 
-    // Choose which team (Red = 1, Blue = 2) goes first
-    let temp = [this.whoseTurn];
-    let originalColors = shuffle(cardColors);
-    this.colors = temp.concat(originalColors);
-
-    // Add one more tile, of the color of the starting team.
-
-    // Populate tiles array with objects containing word and color
-    for ( let i = 1; i <= 25; i++) {
-      this.tilesKey[i] = {
-        word: this.words[i-1],
-        color: this.colors[i-1],
-        revealed: false
-      }
-      this.tilesPlayer[i] = {
-        word: this.words[i-1],
-        revealed: false
-      }
-       //console.log('Tile number ' + i + ': Word is ' + this.tilesKey[i].word + ' and team is ' + this.tilesKey[i].color)
+  // Populate tiles array with objects containing word and color
+  for ( let i = 1; i <= 25; i++) {
+    this.tiles[i] = {
+      word: this.words[i-1],
+      color: this.colors[i-1]
     }
+    console.log('Tile number ' + i + ': Word is ' + this.tiles[i].word + ' and team is ' + this.tiles[i].color)
   }
 }
 
@@ -251,4 +234,6 @@ const shuffle = (array) => {
   return array;
 }
 
-module.exports = game;
+var board = new GameBoard;
+console.log('NEW BOARD:' + board);
+module.exports = board;
